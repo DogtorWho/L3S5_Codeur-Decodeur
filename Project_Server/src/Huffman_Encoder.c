@@ -1,3 +1,8 @@
+/**
+ * @file Huffman_Encoder.c
+ * File containing the functions to use the Huffman encoder.
+ */
+
 #include "Huffman_Encoder.h"
 
 #include <stdlib.h>

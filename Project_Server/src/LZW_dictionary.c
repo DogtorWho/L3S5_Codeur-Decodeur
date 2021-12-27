@@ -1,3 +1,8 @@
+/**
+ * @file LZW_dictionary.c
+ * File containing the functions to use the LZW dictionary.
+ */
+
 #include "LZW_dictionary.h"
 
 #include <stdlib.h>

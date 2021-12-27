@@ -1,3 +1,8 @@
+/**
+ * @file Huffman_PriorityQueue.c
+ * File containing functions to control a priority queue.
+ */
+
 #include "Huffman_PriorityQueue.h"
 
 #include <stdlib.h>

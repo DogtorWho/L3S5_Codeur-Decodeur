@@ -1,3 +1,8 @@
+/**
+ * @file tcp.c
+ * File containing the functions to control the TCP between the client and the server.
+ */
+
 #include "tcp.h"
 
 #include <stdbool.h>

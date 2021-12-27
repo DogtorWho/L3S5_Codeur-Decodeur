@@ -1,3 +1,8 @@
+/**
+ * @file tools.c
+ * File containing functions which can help in all sort of other functions.
+ */
+
 #include "tools.h"
 
 #include <stdlib.h>
@@ -209,8 +214,8 @@ void byArray_print(byte_t byte_array[], int size_byArray, const int mode){
 }
 
 
+/* -------------------------------------------------------------------------- */
 
-/* TD 1 functions : 																												*/
 
 void byprintf(const byte_t Oc, const char *ident, const int mode) {
   static char buffer[8];

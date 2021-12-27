@@ -1,3 +1,8 @@
+/**
+ * @file Huffman_Tree.c
+ * File containing the functions to use the Huffman tree.
+ */
+
 #include "Huffman_Tree.h"
 
 #include <stdlib.h>

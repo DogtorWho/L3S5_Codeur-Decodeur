@@ -1,3 +1,8 @@
+/**
+ * @file main.c
+ * File containing the main function.
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

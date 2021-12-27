@@ -1,3 +1,8 @@
+/**
+ * @file tools.c
+ * File containing functions which can help in all sort of other functions.
+ */
+
 #include "tools.h"
 
 #include <stdlib.h>

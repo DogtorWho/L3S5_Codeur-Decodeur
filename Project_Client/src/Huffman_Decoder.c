@@ -1,3 +1,8 @@
+/**
+ * @file Huffman_Decoder.h
+ * File containing the functions to use the Huffman decoder.
+ */
+
 #include "Huffman_Decoder.h"
 
 #include <stdlib.h>

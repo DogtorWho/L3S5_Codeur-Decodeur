@@ -1,3 +1,8 @@
+/**
+ * @file LZW_byteArray.h
+ * File containing functions to control an array of bytes.
+ */
+
 #include "LZW_byteArray.h"
 
 #include <stdio.h>

@@ -1,16 +1,33 @@
+/**
+ * @file globals.h
+ * File containing global defined constants.
+ */
+
 #ifndef _GLOBALS_
 #define _GLOBALS_
 
-// ASCII table size
+/**
+ * @def ASCII_SIZE
+ * @brief Size of ASCII char (0-255)
+ */
 #define ASCII_SIZE 256
 
-// byte type definition
+/**
+ * @typedef byte_t
+ * @brief Definition of byte type (8 bit)
+ */
 typedef unsigned char byte_t;
 
-// 12 bit type definition
+/**
+ * @typedef twelveBit_t
+ * @brief Definition of 12 bit type
+ */
 typedef unsigned int twelveBit_t;
 
-// char representing the end of the encoded message (for Huffman)
+/**
+ * @def EOT
+ * @brief Char representing the end of the encoded message
+ */
 #define EOT 4
 
 #endif

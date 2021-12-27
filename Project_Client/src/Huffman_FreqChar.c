@@ -1,3 +1,8 @@
+/**
+ * @file Huffman_FreqChar.c
+ * File containing the functions to use the FreqChar.
+ */
+
 #include "Huffman_FreqChar.h"
 
 #include "globals.h"

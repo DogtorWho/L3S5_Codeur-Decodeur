@@ -1,3 +1,8 @@
+/**
+ * @file byteArray.c
+ * File containing functions to control an array of bytes.
+ */
+
 #include "byteArray.h"
 
 #include <stdio.h>

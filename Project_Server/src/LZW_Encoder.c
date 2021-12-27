@@ -1,3 +1,8 @@
+/**
+ * @file LZW_Encoder.c
+ * File containing the functions to use the LZW encoder.
+ */
+
 #include "LZW_Encoder.h"
 
 #include <stdio.h>

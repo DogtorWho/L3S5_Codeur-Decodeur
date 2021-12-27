@@ -1,3 +1,8 @@
+/**
+ * @file LZW_twelveBitArray.c
+ * File containing the functions to use 12-bit arrays.
+ */
+
 #include "LZW_twelveBitArray.h"
 
 #include <stdio.h>

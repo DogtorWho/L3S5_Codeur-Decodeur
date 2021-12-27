@@ -1,3 +1,8 @@
+/**
+ * @file tcp.c
+ * File containing the functions to control the TCP between the client and the server.
+ */
+
 #include "tcp.h"
 
 #include <string.h>
@@ -14,7 +19,7 @@ void create_tcp(args_tcp *a){
   else{
     a->serverHostEnt = gethostbyname(SERVEURNAME);
     if(a->serverHostEnt == NULL)
-      log_error("create_tcp::gethostbyname:: serverHostEnt == NULL");
+      log_error("create_tcp::gethostbyname::serverHostEnt is NULL");
 
     bcopy(a->serverHostEnt->h_addr, &(a->serverSockAddr.sin_addr), a->serverHostEnt->h_length);
   }
