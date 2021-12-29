@@ -101,7 +101,7 @@ void encode_file(args_tcp *a){
 }
 
 void send_dictionary(args_tcp *a){
-  FILE *fp = fopen("bin/lzw_encoded.bin", "rb");
+  FILE *fp = fopen("build/lzw_encoded.bin", "rb");
   assert(fp);
 
   long nb_bytes = fsize(fp); // number of bytes to send
@@ -126,7 +126,7 @@ void send_dictionary(args_tcp *a){
 }
 
 void send_codefile(args_tcp *a){
-  FILE *fp = fopen("bin/huffman.cod", "r");
+  FILE *fp = fopen("build/huffman.cod", "r");
   assert(fp);
 
   char c;
@@ -141,7 +141,7 @@ void send_codefile(args_tcp *a){
 }
 
 void send_code(args_tcp *a){
-  FILE *fp = fopen("bin/huffman_encoded.bin", "rb");
+  FILE *fp = fopen("build/huffman_encoded.bin", "rb");
   assert(fp);
 
   long nb_bytes = fsize(fp); // number of bytes to send

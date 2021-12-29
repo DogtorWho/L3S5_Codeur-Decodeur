@@ -58,7 +58,7 @@ void binaryFile_to_text(char* binary_file, char* filename){
 
   HuffmanTree* ht = init_HuffmanTree();
   printf(" - codeFile_to_huffmanTree\n");
-  codeFile_to_huffmanTree("bin/huffman.cod", ht);
+  codeFile_to_huffmanTree("build/huffman.cod", ht);
 
   HuffmanTreeNode* node = ht->root;
   for(int i=0; i < a.used; i++){
@@ -88,5 +88,5 @@ void binaryFile_to_text(char* binary_file, char* filename){
 
 void Huffman_decoding(char* binary_file){
   printf(" binaryFile_to_text\n");
-  binaryFile_to_text(binary_file, "bin/huffman_decoded.txt");
+  binaryFile_to_text(binary_file, "build/huffman_decoded.txt");
 }

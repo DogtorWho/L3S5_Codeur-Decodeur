@@ -63,12 +63,12 @@ int main(int argc, char* argv[]){
   switch(choice){
     case LZW :
       receive_dictionary(a);
-      decoder_dictionary("bin/lzw_encoded.bin");
+      decoder_dictionary("build/lzw_encoded.bin");
       break;
     case HUFFMAN :
       receive_codefile(a);
       receive_code(a);
-      Huffman_decoding("bin/huffman_encoded.bin");
+      Huffman_decoding("build/huffman_encoded.bin");
       break;
     default : break;
   }
@@ -81,9 +81,9 @@ int main(int argc, char* argv[]){
   free(a);
 
   /* clean the /bin folder */
-  remove("bin/lzw_encoded.bin");
-  remove("bin/huffman_encoded.bin");
-  remove("bin/huffman.cod");
+  remove("build/lzw_encoded.bin");
+  remove("build/huffman_encoded.bin");
+  remove("build/huffman.cod");
 
   return 0;
 }

@@ -76,7 +76,7 @@ void encoder_dictionary(char *filename){
   }
 
   /* creation of the output encoded binary file */
-  char *output = "bin/lzw_encoded.bin";
+  char *output = "build/lzw_encoded.bin";
 
   byteArray outputArray;
   init_byteArray(&outputArray, 1);

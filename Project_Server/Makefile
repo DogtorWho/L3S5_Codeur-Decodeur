@@ -1,37 +1,57 @@
-SRC_DIR := src
-OBJ_DIR := obj
-BIN_DIR := bin
+# Makefile to build and launch the application
 
-LIBRARIES := # libraries
+CXX      := gcc
+CXXFLAGS := -Wall
+LDFLAGS  := -Llib -lm
+BUILD    := ./build
+OBJ_DIR  := $(BUILD)/objects
+APP_DIR  := $(BUILD)/apps
+TARGET   := program
 
-TARGET := exec
+i = -I
+INCLUDE  := -Iinclude/ $(patsubst include/%, -Iinclude/%, $(wildcard include/*/)) # add -I before all the subfolders of include/, i don't know how i've made it worked
+SRC      :=                \
+	$(wildcard src/*/*.c)		 \
+	$(wildcard src/*.c)      \
 
-EXE := $(BIN_DIR)/$(TARGET)
-SRC := $(wildcard $(SRC_DIR)/*.c)
-OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJECTS  := $(SRC:%.c=$(OBJ_DIR)/%.o)
+DEPENDENCIES \
+	:= $(OBJECTS:.o=.d)
 
-CPPFLAGS := -Iinclude -MMD -MP
-CFLAGS   := -Wall $(LIBRARIES)
-LDFLAGS  := -Llib
-LDLIBS   := -lm
+all: build $(APP_DIR)/$(TARGET)
 
-.PHONY : all run clean
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -MMD -o $@
 
-all : $(EXE)
+$(APP_DIR)/$(TARGET): $(OBJECTS)
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) -o $(APP_DIR)/$(TARGET) $^ $(LDFLAGS) $(LIBRARIES)
 
-$(EXE) : $(OBJ) | $(BIN_DIR)
-	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
+-include $(DEPENDENCIES)
 
-$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-$(BIN_DIR) $(OBJ_DIR) :
-	mkdir -p $@
+.PHONY: all run build clean debug release info
 
 run : all
-	./$(EXE)
+	./$(APP_DIR)/$(TARGET)
 
-clean :
-	@$(RM) -rv $(BIN_DIR) $(OBJ_DIR)
+build:
+	@mkdir -p $(APP_DIR)
+	@mkdir -p $(OBJ_DIR)
 
--include $(OBJ:.o=.d)
+debug: CXXFLAGS += -DDEBUG -g
+debug: all
+
+release: CXXFLAGS += -O2
+release: all
+
+clean:
+	-@rm -rvf $(OBJ_DIR)/*
+	-@rm -rvf $(APP_DIR)/*
+
+info:
+	@echo "[*] Application dir: ${APP_DIR}     "
+	@echo "[*] Object dir:      ${OBJ_DIR}     "
+	@echo "[*] Sources:         ${SRC}         "
+	@echo "[*] Objects:         ${OBJECTS}     "
+	@echo "[*] Dependencies:    ${DEPENDENCIES}"

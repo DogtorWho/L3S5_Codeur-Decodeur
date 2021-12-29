@@ -18,7 +18,7 @@ void decoder_dictionary(char *filename){
   assert(fd != NULL);
 
   // output decoded text file
-  FILE *fdp = fopen("bin/lzw_decoded.txt", "w");
+  FILE *fdp = fopen("build/lzw_decoded.txt", "w");
   assert(fdp != NULL);
 
   // initialization of the dictionary and 12bit array with the ascii table

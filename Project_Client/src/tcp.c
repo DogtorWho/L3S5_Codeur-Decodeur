@@ -59,7 +59,7 @@ void send_encoding_demand(args_tcp *a, coder encoder, char *filename){
 }
 
 void receive_dictionary(args_tcp *a){
-  FILE *fp = fopen("bin/lzw_encoded.bin", "wb");
+  FILE *fp = fopen("build/lzw_encoded.bin", "wb");
   assert(fp);
 
   long nb_bytes = 0;
@@ -79,7 +79,7 @@ void receive_dictionary(args_tcp *a){
 }
 
 void receive_codefile(args_tcp *a){
-  FILE *fp = fopen("bin/huffman.cod", "w");
+  FILE *fp = fopen("build/huffman.cod", "w");
   assert(fp);
 
   do{
@@ -93,7 +93,7 @@ void receive_codefile(args_tcp *a){
 }
 
 void receive_code(args_tcp *a){
-  FILE *fp = fopen("bin/huffman_encoded.bin", "wb");
+  FILE *fp = fopen("build/huffman_encoded.bin", "wb");
   assert(fp);
 
   long nb_bytes = 0;

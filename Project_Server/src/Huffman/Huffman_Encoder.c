@@ -75,7 +75,7 @@ void text_to_binaryfile(char* filename, char* file_codes){
   FILE *input = fopen(filename, "r");
   assert(input != NULL);
 
-  FILE *codefile = fopen("bin/code.tmp", "w");
+  FILE *codefile = fopen("build/code.tmp", "w");
   assert(codefile != NULL);
 
   // creating the code
@@ -90,7 +90,7 @@ void text_to_binaryfile(char* filename, char* file_codes){
   fclose(input);
 
   printf(" - codefile_to_binaryfile\n");
-  codefile_to_binaryfile("bin/code.tmp", "bin/huffman_encoded.bin");
+  codefile_to_binaryfile("build/code.tmp", "build/huffman_encoded.bin");
 }
 
 void Huffman_encoding(char* filename){
@@ -102,16 +102,16 @@ void Huffman_encoding(char* filename){
   printf("\n freqChar_to_HuffmanTree\n");
   freqChar_to_HuffmanTree(fc, ht);
 
-  FILE* fp = fopen("bin/huffman.cod", "w"); // clear the file
+  FILE* fp = fopen("build/huffman.cod", "w"); // clear the file
   fclose(fp);
 
   printf("\n save_Huffman_coding\n");
-  save_Huffman_coding("bin/huffman.cod", ht->root);
+  save_Huffman_coding("build/huffman.cod", ht->root);
 
   free_freqChar(fc);
   free_HuffmanTree(ht);
 
   printf("\n text_to_binaryfile\n");
-  text_to_binaryfile(filename, "bin/huffman.cod");
+  text_to_binaryfile(filename, "build/huffman.cod");
   printf("\n\n");
 }

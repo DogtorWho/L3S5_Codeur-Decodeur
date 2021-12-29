@@ -25,10 +25,10 @@ int main(void){
   free(a);
 
   /* clean the /bin folder */
-  remove("bin/lzw_encoded.bin");
-  remove("bin/code.tmp");
-  remove("bin/huffman_encoded.bin");
-  remove("bin/huffman.cod");
+  remove("build/lzw_encoded.bin");
+  remove("build/code.tmp");
+  remove("build/huffman_encoded.bin");
+  remove("build/huffman.cod");
 
   return 0;
 }
