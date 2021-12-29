@@ -13,13 +13,20 @@
  * @def list_size
  * @brief Size of the list of texts
  */
-#define list_size 4
+#define list_size 6
 
 /**
  * @var file_list
  * @brief List of text files to encode
  */
-static char file_list[list_size][BUFSIZ] = { {"helloWorld.txt"}, {"Text_de_base.txt"}, {"10_000_bytes.txt"}, {"100_000_bytes.txt"} };
+static char file_list[list_size][BUFSIZ] = { 
+	{"Text_de_base.txt"}, 
+	{"10_000_bytes.txt"},
+	{"100_000_bytes.txt"},
+	{"1_000_000_bytes.txt"},
+	{"Musketeers.txt"},
+	{"Queens.txt"}
+};
 
 
 bool check_filename(const char *filename){

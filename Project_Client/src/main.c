@@ -81,13 +81,6 @@ int main(int argc, char* argv[]){
   free(a);
 
   /* clean the /bin folder */
-  switch(choice){
-    case LZW :
-      remove("bin/huffman_decoded.txt");
-    case HUFFMAN :
-      remove("bin/lzw_decoded.txt");
-    default : break;
-  }
   remove("bin/lzw_encoded.bin");
   remove("bin/huffman_encoded.bin");
   remove("bin/huffman.cod");
