@@ -36,12 +36,11 @@ void init_dictionary(dico_t *dico);
 
 /**
  * @fn void fill_asciiTable(dico_t *dico, twelveBitArray *a)
- * @brief fill a dictionary and a 12-bit array with the ASCII characters
- * fill the first 256 words with all the ASCII characters, same with the array
+ * @brief fill a dictionary with the ASCII characters
+ * fill the first 256 words with all the ASCII characters
  * @param dico the dictionary to fill
- * @param a 12-bit array to fill
  */
-void fill_asciiTable(dico_t *dico, twelveBitArray *a);
+void fill_asciiTable(dico_t *dico);
 
 /**
  * @fn void add_dictionary(dico_t *dico, char *string)

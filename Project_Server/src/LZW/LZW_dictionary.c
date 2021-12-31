@@ -20,31 +20,28 @@ void init_dictionary(dico_t *dico){
   dico->nb_mots = 0;
 }
 
-void fill_asciiTable(dico_t *dico, twelveBitArray *a){
-  assert(a != NULL);
-  assert(a->array != NULL);
-
-  free_twelveBitArray(a);
-	init_twelveBitArray(a, ASCII_SIZE);
-
+void fill_asciiTable(dico_t *dico){
+  assert(dico != NULL);
   free_dictionary(dico);
-  dico->nb_mots = ASCII_SIZE; // 0-255 ascii table
 
   for (int i=0; i < ASCII_SIZE; i++){
     char c = i;
-    char *s = (char *)malloc(2);
+    char *s = (char *)calloc(1, 2);
     s[0] = c;
-    s[1] = '\0';
     dico->mots[i] = s;
-
-    insert_twelveBitArray(a, i);
   }
+  dico->nb_mots = ASCII_SIZE; // 0-255 ascii table
 }
 
 void add_dictionary(dico_t *dico, char *string){
   assert(dico != NULL);
 
-  dico->mots[dico->nb_mots] = string;
+  if(dico->nb_mots == DICO_SIZE) // clear the dictionary if its full
+    empty_dictionary(dico);
+
+  char* add = (char *)calloc(1, BUFFER);
+  strcpy(add, string);
+  dico->mots[dico->nb_mots] = add;
   dico->nb_mots++;
 }
 
@@ -52,7 +49,7 @@ void add_dictionary(dico_t *dico, char *string){
 void empty_dictionary(dico_t *dico){
   assert(dico != NULL);
 
-  for(int i=ASCII_SIZE; i < dico->nb_mots; i++)
+  for(int i=ASCII_SIZE; i < DICO_SIZE; i++)
     free(dico->mots[i]);
 
   dico->nb_mots = ASCII_SIZE;
@@ -61,9 +58,8 @@ void empty_dictionary(dico_t *dico){
 void free_dictionary(dico_t *dico){
   assert(dico != NULL);
 
-  for(int i=0; i < dico->nb_mots; i++) {
+  for(int i=0; i < dico->nb_mots; i++)
     free(dico->mots[i]);
-  }
 }
 
 void print_dictionary(dico_t *dico, bool seeAsciiCodes){

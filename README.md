@@ -3,12 +3,12 @@
 
 ---
 
-[GitHub](https://github.com/DogtorWho/Projet_CDD_L3) - par Jean Thiebault et Teiter Hugo
+[GitLab]() - par Jean Thiebault et Teiter Hugo
 
 ## Table de contenu
 
 1. [Présentation](#presentation)
-2. [Some Gestion des données](#gestion)
+2. [Gestion des données](#gestion)
     1. [Communication Client - Serveur](#communication)
 3. [Les codeurs](#codeurs)
     1. [LZW](#lzw)
@@ -266,6 +266,7 @@ Voici le résultat de la compression de quelques fichiers avec notre algorithme 
 | 1_000_000_bytes| 1 003 320 o       | 468 416 o         | 47%                 |
 | Musketeers     | 1 328 616 o       | 736 167 o         | 55%                 |
 | Queens         | 656 130 o         | 380 610 o         | 58%                 |
+| Bible          | 4 339 110 o       | 2 163 531 o       | 50%                 |
 
 
 ## Huffman <a name="huffman"></a>
@@ -404,15 +405,15 @@ FIN
 
 Voici le résultat de la compression de quelques fichiers avec notre algorithme Huffman :
 
-| Nom du fichier | Taille du fichier | Taille compressée | Taux de compression |
-| :---           | :---              | :---              | :---                |
-| Text_de_base   | 241 o             | 139 o             | 58%                 |
-| 10_000_bytes   | 10 035 o          | 5 391 o           | 53%                 |
-| 100_000_bytes  | 100 332 o         | 53 801 o          | 54%                 |
-| 1_000_000_bytes| 1 003 320 o       | 538 256 o         | 54%                 |
-| Musketeers     | 1 328 616 o       | 763 031 o         | 57%                 |
-| Queens         | 656 130 o         | 383 883 o         | 58%                 |
-
+| Nom du fichier | Taille du fichier | Taille compressée | Taille des codes | Taux de compression |
+| :---           | :---              | :---              | :---             | :---                |
+| Text_de_base   | 241 o             | 139 o             | 500 o            | 265%                |
+| 10_000_bytes   | 10 035 o          | 5 391 o           | 574              | 59%                 |
+| 100_000_bytes  | 100 332 o         | 53 801 o          | 619 o            | 54%                 |
+| 1_000_000_bytes| 1 003 320 o       | 538 256 o         | 660 o            | 54%                 |
+| Musketeers     | 1 328 616 o       | 763 031 o         | 1 473 o          | 58%                 |
+| Queens         | 656 130 o         | 383 883 o         | 1 447 o          | 59%                 |
+| Bible          | 4 339 110 o       | 2 468 928 o       | 1 284 o          | 57%                 |
 
 ---
 

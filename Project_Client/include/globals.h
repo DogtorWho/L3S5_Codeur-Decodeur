@@ -13,6 +13,12 @@
 #define ASCII_SIZE 256
 
 /**
+ * @def BUFFER
+ * @brief Size of the buffer for the words in the dictionary
+ */
+#define BUFFER 512
+
+/**
  * @typedef byte_t
  * @brief Definition of byte type (8 bit)
  */

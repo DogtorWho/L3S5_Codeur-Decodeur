@@ -13,7 +13,7 @@
  * @def list_size
  * @brief Size of the list of texts
  */
-#define list_size 6
+#define list_size 7
 
 /**
  * @var file_list
@@ -25,7 +25,8 @@ static char file_list[list_size][BUFSIZ] = {
 	{"100_000_bytes.txt"},
 	{"1_000_000_bytes.txt"},
 	{"Musketeers.txt"},
-	{"Queens.txt"}
+	{"Queens.txt"},
+	{"Bible.txt"}
 };
 
 

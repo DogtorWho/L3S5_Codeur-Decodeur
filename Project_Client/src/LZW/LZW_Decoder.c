@@ -13,22 +13,18 @@
 #include "tools.h"
 
 void decoder_dictionary(char *filename){
-  // binary file containing the codes to decode
-  FILE *fd = fopen(filename, "rb");
+  FILE *fd = fopen(filename, "rb"); // binary file containing the codes to decode
   assert(fd != NULL);
 
-  // output decoded text file
-  FILE *fdp = fopen("build/lzw_decoded.txt", "w");
+  FILE *fdp = fopen("build/lzw_decoded.txt", "w"); // output decoded text file
   assert(fdp != NULL);
 
-  // initialization of the dictionary and 12bit array with the ascii table
+  /* initialization of the dictionary with the ascii table */
   dico_t dico;
-  twelveBitArray b12Array;
   init_dictionary(&dico);
-  init_twelveBitArray(&b12Array, 1);
-  fill_asciiTable(&dico, &b12Array);
+  fill_asciiTable(&dico);
 
-  // transform the input binary file into a 12 bit array containing the codes
+  /* 12bit LZW decoding algorithm */
   twelveBitArray codes;
   byteArray inputArray;
   init_twelveBitArray(&codes, 1);
@@ -36,93 +32,46 @@ void decoder_dictionary(char *filename){
   binaryFile_to_byteArray(&inputArray, filename);
   byteArray_to_b12Array(&inputArray, &codes);
 
-  char *S = (char *)calloc(1, BUFSIZ);
-  int code = ASCII_SIZE; // starting the coding after the last ascii caracter
+  char* string = (char*)calloc(1, BUFFER);
+  char* old = (char*)calloc(1, BUFFER);
+  char* add = (char*)calloc(1, BUFFER);
+  char c;
 
-  int i = 0;
-  char *m = (char *)calloc(1, BUFSIZ);
-  while(i < codes.used){
-    twelveBit_t c = codes.array[i];
+  twelveBit_t new_code = 0;
+  twelveBit_t old_code = codes.array[0];
 
-    if(c != 0){ // to purge the potential extra bytes at the end of the conversion between 8bit and 12bit
-      if(c < ASCII_SIZE){ // c in the initial dictionary
-        strcpy(m, dico.mots[c]);
-        fputc(m[0], fdp);
+  strcpy(old, dico.mots[old_code]);
+  fputs(old, fdp); // output first code
 
-        char *s_m = (char *)calloc(1, strlen(S)+strlen(m)+1);
-  			strcpy(s_m, S);
-  			strcat(s_m, m);
+  for(int i = 1; i < codes.used; i++){ // read every codes
+    new_code = codes.array[i]; // get the code to convert
 
-  			if(find_string(&dico, s_m)){
-  				strcpy(S, s_m);
-  				free(s_m);
-  			}
-  			else{
-          if(dico.nb_mots == DICO_SIZE) // clear the dictionary if its full
-            empty_dictionary(&dico);
-          //printf("size : %d - code : %d - add : %s\n", dico.nb_mots, code, s_m);
-          add_dictionary(&dico, s_m);
-  				insert_twelveBitArray(&b12Array, code);
-  				code++;
-
-          strcpy(S, m);
-  			}
-      }
-      else{ // c > 255, m contains more than one char
-        // check if the code can already be found in the dictionary (ex : aaa)
-        if(c >= dico.nb_mots){ // code can't be found, we create it
-          char *tmpS = (char *)calloc(1, sizeof(S)+1); // size of a char
-          strcpy(tmpS, S);
-          strcat(tmpS, S);
-          strcpy(S, "");
-
-          if(dico.nb_mots == DICO_SIZE) // clear the dictionary if its full
-            empty_dictionary(&dico);
-          //printf("size : %d - code : %d - add : %s\n", dico.nb_mots, code, tmpS);
-          add_dictionary(&dico, tmpS);
-          insert_twelveBitArray(&b12Array, code);
-          code++;
-        }
-
-        strcpy(m, dico.mots[c]);
-
-        char *cm = (char *)calloc(1, 2); // size of a char
-        for (int i=0; i < strlen(m); i++){
-          cm[0] = m[i];
-          fputc(cm[0], fdp);
-
-          char *s_cm = (char *)calloc(1, strlen(S)+2); // 1 for \0 and 1 for cm
-    			strcpy(s_cm, S);
-    			strcat(s_cm, cm);
-
-          if(find_string(&dico, s_cm)){
-    				strcpy(S, s_cm);
-    				free(s_cm);
-    			}
-    			else{
-            if(dico.nb_mots == DICO_SIZE) // clear the dictionary if its full
-              empty_dictionary(&dico);
-            //printf("size : %d - code : %d - add : %s\n", dico.nb_mots, code, s_cm);
-            add_dictionary(&dico, s_cm);
-    				insert_twelveBitArray(&b12Array, code);
-    				code++;
-
-            strcpy(S, cm);
-    			}
-        }
-        free(cm);
-      }
+    /* handling exception */
+    if(new_code >= dico.nb_mots){
+      strcpy(string, dico.mots[old_code]);
+      strncat(string, &c, 1);
     }
-    i++;
+    else{
+      strcpy(string, dico.mots[new_code]);
+    }
+
+    fputs(string, fdp); // recreating the message
+    c = string[0]; // c take the first char of the string
+
+    strcpy(add, dico.mots[old_code]);
+    strncat(add, &c, 1);
+    add_dictionary(&dico, add); // add the new word to the dictionary
+
+    old_code = new_code;
   }
 
-  // free all the memory allocated
-  free(m);
-	free(S);
+  /* free all the memory allocated */
+	free(string);
+  free(old);
+  free(add);
 
   free_byteArray(&inputArray);
   free_twelveBitArray(&codes);
-  free_twelveBitArray(&b12Array);
   free_dictionary(&dico);
 
   fclose(fdp);
