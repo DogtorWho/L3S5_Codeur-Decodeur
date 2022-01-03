@@ -9,7 +9,7 @@ APP_DIR  := $(BUILD)/apps
 TARGET   := program
 
 i = -I
-INCLUDE  := -Iinclude/ $(patsubst include/%, -Iinclude/%, $(wildcard include/*/)) # add -I before all the subfolders of include/, i don't know how i've made it worked
+INCLUDE  := -Iinclude/ $(patsubst include/%, -Iinclude/%, $(wildcard include/*/))
 SRC      :=                \
 	$(wildcard src/*/*.c)		 \
 	$(wildcard src/*.c)      \

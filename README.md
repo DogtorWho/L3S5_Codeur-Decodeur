@@ -3,7 +3,7 @@
 
 ---
 
-[GitLab]() - par Jean Thiebault et Teiter Hugo
+par Jean Thiebault et Teiter Hugo
 
 ## Table de contenu
 
@@ -33,14 +33,14 @@
 ---
 
 Dans ce projet nous avons mit en place un systeme d'encodage / décodage de fichiers texte au format ASCII.
-Ce systeme comprend un programme client et un programme serveur communicant grace au protocole TCP.
+Ce système comprend un programme client et un programme serveur communicant grace au protocole TCP.
 
 
 # Gestion des données <a name="gestion"></a>
 
 ---
 
-Pour pouvoir s'échanger des données, le client doit se connecter au serveur via le protocole TCP, c'est pour cela que tant que le serveur va attendre que le client se connecte a lui avant de commencer quoi que se soit en rapport avec l'encodage.
+Pour pouvoir s'échanger des données, le client doit se connecter au serveur via le protocole TCP, c'est pour cela que tant que le serveur va attendre que le client se connecte à lui avant de commencer quoi que se soit en rapport avec l'encodage.
 Dans ce projet nous avons choisit d'envoyer les packets octets par octets entre le client et le serveur.
 
 ## Communication Client - Serveur <a name="communication"></a>
@@ -49,31 +49,31 @@ Apres avoir etes connecté, le client et le serveur communique comme ci-dessous 
 1. **Client -** 
     - Envoi le nom du fichier à encoder et le type d'encodage choisit
 2. **Serveur -** 
-    - Recoit les informations
-    - Regarde si il possède un fichier du meme nom que celui envoyé dans sa base de fichiers
+    - Reçoit les informations
+    - Regarde si il possède un fichier du même nom que celui envoyé dans sa base de fichiers
     - Encode le fichier selon le type choisit
     - Envoi le code du fichier
 3. **Client -**
-    - Recoit le fichier encoder
-    - Decode selon le type choisit au depart
-    - Creer finalement le fichier texte décodé
+    - Recoit le fichier encodé
+    - Décode selon le type choisit au départ
+    - Créer finalement le fichier texte décodé
 
-Le serveur coupe la connection dès que son travail est terminé
+Le serveur coupe la connexion dès que son travail est terminé
 
 
 # Les codeurs <a name="codeurs"></a>
 
 ---
 
-Pour ce projet nous avons produit deux codeurs, mais rien n'empecherait d'en ajouter d'autres plus tard.
-Dans cette partie nous allons présenter en detaille ces codeurs.
+Pour ce projet nous avons produit deux codeurs, mais rien n'empêcherait d'en ajouter d'autres plus tard.
+Dans cette partie nous allons présenter en details ces codeurs.
 
 ## LZW <a name="lzw"></a>
 
 Le codeur [LZW](https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch) (ou Lempel–Ziv–Welch) utilise un dictionaire genéré independament dans l'encodeur et le décodeur, ce qui à pour avantage que le décodeur n'a besoin que du code sortie a la fin de l'encodage.
 
 > **Attention :**
-> Notre codeur ne fonctionne qu'avec des fichiers contenant des caracteres ASCII
+> Notre codeur ne fonctionne qu'avec des fichiers contenant des caractères ASCII
 
 ### Nos Types Abstraits <a name="types"></a>
 
@@ -81,7 +81,7 @@ L'implémentation du codeur LZW en langage C nous a demandé de créer quelques 
 
 #### Dictionnaire <a name="dictionnaire"></a>
 
-Comme ce codeur utilise un systeme de dictionnaire, notre premier TA créé a logiquement été un dictionaire avec la structure suivante :
+Comme ce codeur utilise un système de dictionnaire, notre premier TA créé a logiquement été un dictionaire avec la structure suivante :
 
 ```c
 typedef struct {
@@ -89,9 +89,10 @@ typedef struct {
 	int nb_mots;
 } dico_t; 
 ```
+
 Celle-ci nous permet de stocker les mots créés durant l'encodage ou le décodage.
 
-En plus des fonctions de bases comme initializer ou libérer la structure, ajouter ou trouver un élément, ou encore l'affichage des données, nous avons dut réfléchir à un moyen pour mettre en pratique l'encodage de très gros fichiers qui consommeraient trop de mémoire si l'on remplissai le dictionnaire naivement.
+En plus des fonctions de bases comme initialiser ou libérer la structure, ajouter ou trouver un élément, ou encore l'affichage des données, nous avons dut réfléchir à un moyen pour mettre en pratique l'encodage de très gros fichiers qui consommeraient trop de mémoire si l'on remplit le dictionnaire naïvement.
 Pour cela nous avons écrit une fonction qui vide le dictionnaire lorqu'il est plein, tout en gardant les caracterers ASCII stockés au début du dictionnaire.
 
 #### Tableau de 12-bit <a name="tab12"></a>
@@ -107,8 +108,8 @@ typedef struct {
 } twelveBitArray;
 ```
 
-Des fonctions d'initialisation, libération, recherche et affichage ont aussi été implementés.
-De plus, nous avons rajouté une fonctions qui permet de créer un fichier binaire à partir du tableau.
+Des fonctions d'initialisation, de libération, de recherche et d'affichage ont aussi été implementées.
+De plus, nous avons rajouté une fonction qui permet de créer un fichier binaire à partir du tableau.
 
 #### Tableau d'octet <a name="tabByte"></a>
 
@@ -134,52 +135,37 @@ Pseudo code :
 DEBUT
     S = "";
     dico = dico_t; 
-    tab_12bit = twelveBitArray;
     tab_codes = twelveBitArray;
-    code = 256; // fin des caracteres ASCII
     
     REMPLIR dico avec les caracteres ASCII;
-    REMPLIR tab_12bit avec les valeurs binaires des caracteres ASCII;
     
     TANT QUE la source n'est pas vide FAIRE
-        LIRE le caractere m dans le flux d'entrée;
-        SI (S + m) existe deja dans dico ALORS
-            S = S + m;
-        SINON
-            SI S est un caractere ALORS
-                AJOUTER la valeur binaire de S dans tab_codes;
-            SINON
-                POUR chaque mot de dico FAIRE
-                    SI le mot correspond à S ALORS
-                        Ajouter la valeur binaire du mot dans tab_codes;
-                        STOP;
-                    FSI
-                FPOUR
-            FSI
-            SI dico est plein ALORS
-                Vider dico;
-            FSI
-            AJOUTER (S + m) dans dico;
-            AJOUTER code dans tab_codes;
-            code++;
-            S = m;
-        FSI
-    FTQ   
-    
-    SI S est un caractere ALORS
-        AJOUTER la valeur binaire de S dans tab_codes;
+        LIRE le caractère c dans le flux d'entrée;
+        SI (S + c) existe deja dans dico ALORS
+            S = S + c;
         SINON
             POUR chaque mot de dico FAIRE
                 SI le mot correspond à S ALORS
-                    AJOUTER la valeur binaire du mot dans tab_codes;
+                    AJOUTER le code du mot dans tab_codes;
                     STOP;
                 FSI
             FPOUR
+            SI dico est plein ALORS
+                VIDER dico;
+            FSI
+            AJOUTER (S + c) dans dico;
+            S = c;
         FSI
-    FSI
+    FTQ   
+    POUR chaque mot de dico FAIRE
+        SI le mot correspond à S ALORS
+            AJOUTER le code du mot dans tab_codes;
+            STOP;
+        FSI
+    FPOUR
     
     tab_byte = byteArray;
-    TRANSFORMER tab_12bit en tab_byte;
+    TRANSFORMER tab_codes en tab_byte;
     TRANSFORMER tab_byte en fichier binaire; // fichier contenant le message encodé
 FIN
 ```
@@ -192,11 +178,8 @@ Pseudo code :
 DEBUT
     S = "";
     dico = dico_t; 
-    tab_12bit = twelveBitArray;
-    code = 256; // fin des caracteres ASCII
 
     REMPLIR dico avec les caracteres ASCII;
-    REMPLIR tab_12bit avec les valeurs binaires des caracteres ASCII;
     
     msg_encodé = fichier binaire d'entrée;
     tab_byte = byteArray;
@@ -205,51 +188,27 @@ DEBUT
     TRANSFORMER msg_encodé en tab_byte;
     TRANSFORMER tab_byte en tab_codes; // tab_codes contient maintenant les codes à décoder
     
-    TANT QUE i < à la taille de tab_codes FAIRE
-        c = tab_codes[i];
-        SI c est différent de 0 ALORS
-            SI c est un caractere ALORS
-                m = c;
-                ECRIRE c dans la sortie;
-                SI (S + m) existe deja dans le dictionnaire ALORS
-                    S = S + m;
-                SINON
-                    SI dico est plein ALORS
-                        VIDER dico;
-                    FSI
-                    AJOUTER (s + m) dans dico;
-                    AJOUTER code dans tab_12bit;
-                    code++;
-                    S = m;
-                FSI
-            SINON // c contient plusieurs caracteres
-                SI c n'est pas dans dico ALORS
-                    SI dico est plein ALORS
-                        Vider dico;
-                    FSI
-                    AJOUTER (S + S) dans dico;
-                    AJOUTER code dans tab_12bit;
-                    code++;
-                    S = "";
-                FSI
-                m = c;
-                POUR chaque caractere c_m de m FAIRE
-                    Ajouter c_m dans le flux de sortie; // reconstitution du message
-                    SI (S + c_m) existe deja dans dico ALORS
-                        S = (S + c_m);
-                    SINON
-                        SI dico est plein ALORS
-                            Vider dico;
-                        FSI
-                        AJOUTER (s + c_m) dans dico;
-                        AJOUTER code dans tab_12bit;
-                        code++;
-                        S = c_m;
-                    FSI
-                FPOUR
-            FSI
+    old_code = premier code de tab_codes;
+    ECRIRE la valeur de old_code dans le flux de sortie;
+    
+    POUR tout code de tab_codes FAIRE // sauf le premier code, deja ecrit
+        ECRIRE le code dans new_code;
+        SI la valeur de new_code n'est pas dans dico ALORS
+            S = valeur de old_code + c;
+        SINON
+            S = valeur de new_code;
         FSI
-    FTQ
+        
+        ECRIRE S dans le flux de sortie;
+        c = le premier caractère de S;
+        
+        SI dico est plein ALORS
+            VIDER dico;
+        FSI
+        AJOUTER (valeur de old_code + c) dans dico;
+        
+        old_code = new_code;
+    FPOUR
 FIN
 ```
 
@@ -271,15 +230,15 @@ Voici le résultat de la compression de quelques fichiers avec notre algorithme 
 
 ## Huffman <a name="huffman"></a>
 
-Le codeur de [Huffman](https://en.wikipedia.org/wiki/Huffman_coding) est un codeur entropique generant une table de code qui faut transmettre au décodeur en plus du message encodé.
+Le codeur de [Huffman](https://en.wikipedia.org/wiki/Huffman_coding) est un codeur entropique générant une table de code qui faut transmettre au décodeur en plus du message encodé.
 [Ce site](https://www.programiz.com/dsa/huffman-coding) nous a beaucoup inspiré pour la création de ce codeur car la description des étapes et très claire.
+
 > **Attention :**
-> Notre codeur ne fonctionne qu’avec des fichiers contenant des caractères ASCII, il supprimera les caracteres non ASCII du fichier décodé.
+> Notre codeur ne fonctionne qu’avec des fichiers contenant des caractères ASCII, il supprimera les caractères non ASCII du fichier décodé.
 
 ### Nos Types Abstraits <a name="types2"></a>
 
-Pour pouvoir implementer l'algorithme de Huffman dans un cas concret nous avons eu a construire certains types abstraits qui vons nous etre utile par la suite.
-
+Pour pouvoir implémenter l'algorithme de Huffman dans un cas concret nous avons eu à construire certains types abstraits qui vons nous être utile par la suite.
 
 #### Tableau de fréquence des caracteres <a name="frequence"></a>
 
@@ -298,7 +257,7 @@ La fonction principale de cette structure reste la conversion d'un fichier texte
 
 #### Arbre Binaire <a name="arbre"></a>
 
-Ce codeur repose essentiellment sur un arbre binaire qui va changer de forme au fur et a mesure que les code se créent.
+Ce codeur repose essentiellment sur un arbre binaire qui va changer de forme au fûr et à mesure que les code se créent.
 Nous avons donc besoin d'une structure pour pouvoir controler cet arbre :
 
 ```c
@@ -319,7 +278,7 @@ typedef struct HuffmanTree {
 } HuffmanTree;
 ```
 
-Nous avons ajouté des fonctions d'initialisation, de libération, d'insertion ou encore d'affichage pour l'arbre mais aussi pour ses noeuds car les fonctions de l'arbre sont en majorité recursives.
+Nous avons ajouté des fonctions d'initialisation, de libération, d'insertion ou encore d'affichage pour l'arbre mais aussi pour ses noeuds car les fonctions de l'arbre sont en majoritées récursives.
 De plus, nous pouvons transformer un tableau de fréquences (la structure ci-dessus) en un arbre de Huffman.
 Pour la création des codes nous avons une fonction qui permet d'ajouter aux noeuds leur code lorsque l'arbre est terminé, ainsi qu'une autre permettant de sauvegarder ces codes dans un fichier.
 
@@ -358,8 +317,8 @@ DEBUT
     SAUVEGARGER les codes de arbre;
     
     TANT QUE la source n'est pas vide FAIRE
-        LIRE le caractere m dans le flux d'entrée;
-        ECRIRE le code correspondant à m dans le flux de sortie;
+        LIRE le caractère c dans le flux d'entrée;
+        ECRIRE le code correspondant à c dans le flux de sortie;
     FTQ
 FIN
 ```

@@ -1,0 +1,20 @@
+Projet réalisé et testé sur linux (Pop-OS - 21.04) 
+Risque de ne pas fonctionner sur Windows à cause des bibliothèques TCP utilisées.
+
+Compilation : 
+dans le dossier /Project/Client : $ make // pour compiler le programme client
+dans le dossier /Project/Server : $ make // pour compiler le programme serveur
+
+Fonctionnement : 
+ - dans le dossier /Project/Server : $ make run // pour lancer le programme serveur
+  PUIS (d'abord lancer le serveur pour que le client puisse ce connecter).
+ - dans le dossier /Project/Client : $ make run // pour lancer le programme client
+ 
+Possibilité de lancer le client avec un argument qui sera le nom du fichier à tester.
+ Ex : $ ./build/apps/program dossier_du_fichier/nom_du_fichier.txt
+Le fichier devra alors aussi etre dans le dossier Project_Server/include/texts avec le meme nom que dans l'argument (nom_du_fichier.txt)
+
+Après le programme terminé, le fichier décodé se trouvera ici :
+ Project_Client/build/lzw_decoded.txt OU Project_Client/build/huffman_decoded.txt
+
+Pour consulter les fichiers temporaires (code de huffman, fichiers binaires, ...) il faudra mettre en commentaire les dernières lignes de code dans le main.c (remove "...") du client ou du serveur, puis recompiler et relancer.
