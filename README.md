@@ -3,7 +3,7 @@
 
 ---
 
-par Jean Thiebault et Teiter Hugo
+🧑‍🎓 Projet universitaire 🧑‍🎓
 
 ## Table de contenu
 
@@ -373,10 +373,3 @@ Voici le résultat de la compression de quelques fichiers avec notre algorithme 
 | Musketeers     | 1 328 616 o       | 763 031 o         | 1 473 o          | 58%                 |
 | Queens         | 656 130 o         | 383 883 o         | 1 447 o          | 59%                 |
 | Bible          | 4 339 110 o       | 2 468 928 o       | 1 284 o          | 57%                 |
-
----
-
-Rapport de Projet - Jean Thiebault - Teiter Hugo
-
-
-
